@@ -1,0 +1,329 @@
+/* =========================================================
+   DeshYatra — Design Tokens
+   Palette: sand base, peacock teal primary, marigold + terracotta accents
+   Type: Fraunces (display) / Work Sans (body) / JetBrains Mono (utility)
+   Signature: dotted "route line" connecting waypoints down the page
+   ========================================================= */
+
+:root {
+  --sand: #FBF3E7;
+  --sand-deep: #F3E6D2;
+  --ink: #23180F;
+  --ink-soft: #5A4A3C;
+  --peacock: #0B5563;
+  --peacock-dark: #063A44;
+  --peacock-tint: #E4F0EE;
+  --marigold: #F4A63A;
+  --marigold-dark: #C97F1B;
+  --terracotta: #B8441F;
+  --gold: #C9962C;
+  --line: rgba(35, 24, 15, 0.12);
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Work Sans', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--sand);
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, .display {
+  font-family: var(--font-display);
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--terracotta);
+  font-weight: 600;
+}
+
+a { color: var(--peacock); }
+a:hover { color: var(--peacock-dark); }
+
+/* ---------- Navbar ---------- */
+.dy-navbar {
+  background: var(--sand);
+  border-bottom: 1px solid var(--line);
+  padding: 1rem 0;
+}
+.dy-navbar .navbar-brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--peacock-dark);
+}
+.dy-navbar .navbar-brand span { color: var(--terracotta); }
+.dy-navbar .nav-link {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink) !important;
+  margin: 0 0.6rem;
+  padding: 0.4rem 0 !important;
+  border-bottom: 2px solid transparent;
+}
+.dy-navbar .nav-link:hover,
+.dy-navbar .nav-link.active {
+  border-bottom: 2px solid var(--marigold);
+  color: var(--peacock-dark) !important;
+}
+.btn-dy-primary {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--terracotta);
+  border: none;
+  color: #fff;
+  padding: 0.6rem 1.4rem;
+  border-radius: var(--radius);
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.btn-dy-primary:hover { background: #96350f; color: #fff; transform: translateY(-1px); }
+
+.btn-dy-outline {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: transparent;
+  border: 1.5px solid var(--peacock);
+  color: var(--peacock-dark);
+  padding: 0.55rem 1.3rem;
+  border-radius: var(--radius);
+}
+.btn-dy-outline:hover { background: var(--peacock); color: #fff; }
+
+/* ---------- Hero ---------- */
+.dy-hero {
+  background: linear-gradient(180deg, var(--sand) 0%, var(--sand-deep) 100%);
+  padding: 4.5rem 0 3rem;
+  position: relative;
+  overflow: hidden;
+}
+.dy-hero h1 {
+  font-size: clamp(2.6rem, 5vw, 4.2rem);
+  line-height: 1.05;
+}
+.dy-hero .lead {
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+  max-width: 480px;
+}
+.dy-hero-stats {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--peacock-dark);
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.dy-hero-stats strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--terracotta);
+}
+.dy-hero-collage {
+  position: relative;
+  height: 460px;
+}
+.dy-hero-collage img {
+  position: absolute;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: 0 18px 40px rgba(35,24,15,0.18);
+}
+.dy-hero-collage .img-a { width: 62%; height: 62%; top: 0; right: 0; z-index: 2; }
+.dy-hero-collage .img-b { width: 46%; height: 48%; bottom: 0; left: 0; z-index: 3; border: 6px solid var(--sand); }
+.dy-hero-collage .img-c { width: 34%; height: 34%; top: 8%; left: 4%; z-index: 1; border: 6px solid var(--sand); }
+
+/* ---------- Route line signature ---------- */
+.route-line-wrap { position: relative; padding: 1rem 0 2rem; }
+.route-line-svg { display: block; width: 100%; }
+.route-waypoint {
+  text-align: center;
+}
+.route-waypoint .pin {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--peacock);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  margin: 0 auto 0.6rem;
+  border: 3px solid var(--sand);
+  box-shadow: 0 0 0 2px var(--line);
+}
+.route-waypoint .km {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--terracotta);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ---------- Section headers ---------- */
+.section-head { margin-bottom: 2.5rem; }
+.section-head h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); }
+
+/* ---------- Destination cards ---------- */
+.dest-card {
+  background: #fff;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 100%;
+}
+.dest-card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(35,24,15,0.14); }
+.dest-card .dest-img { height: 210px; width: 100%; object-fit: cover; }
+.dest-card .dest-body { padding: 1.2rem 1.3rem 1.4rem; }
+.dest-card .dest-loc {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--peacock);
+  letter-spacing: 0.08em;
+}
+.dest-card h3 { font-size: 1.25rem; margin: 0.3rem 0 0.5rem; }
+.dest-card .dest-price {
+  font-family: var(--font-mono);
+  color: var(--terracotta);
+  font-weight: 600;
+}
+
+/* ---------- Package strip ---------- */
+.pkg-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  background: #fff;
+  height: 100%;
+}
+.pkg-card .eyebrow { display: block; margin-bottom: 0.6rem; }
+.pkg-card ul { padding-left: 1.1rem; font-size: 0.92rem; color: var(--ink-soft); }
+
+/* ---------- CTA band ---------- */
+.dy-cta {
+  background: var(--peacock-dark);
+  color: var(--sand);
+  padding: 3.5rem 0;
+  text-align: center;
+}
+.dy-cta h2 { color: var(--sand); }
+.dy-cta p { color: rgba(251,243,231,0.75); }
+
+/* ---------- Footer ---------- */
+.dy-footer {
+  background: var(--ink);
+  color: rgba(251,243,231,0.7);
+  padding: 3rem 0 1.5rem;
+  font-size: 0.9rem;
+}
+.dy-footer h5 {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--marigold);
+  margin-bottom: 1rem;
+}
+.dy-footer a { color: rgba(251,243,231,0.7); text-decoration: none; }
+.dy-footer a:hover { color: var(--marigold); }
+.dy-footer .bottom {
+  border-top: 1px solid rgba(251,243,231,0.12);
+  margin-top: 2rem;
+  padding-top: 1.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: rgba(251,243,231,0.45);
+}
+
+/* ---------- Forms (login/signup/booking) ---------- */
+.dy-form-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  box-shadow: 0 20px 50px rgba(35,24,15,0.08);
+}
+.dy-form-card label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  margin-bottom: 0.3rem;
+}
+.dy-form-card .form-control {
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  padding: 0.65rem 0.9rem;
+}
+.dy-form-card .form-control:focus {
+  border-color: var(--peacock);
+  box-shadow: 0 0 0 3px var(--peacock-tint);
+}
+
+/* ---------- Admin dashboard ---------- */
+.dy-sidebar {
+  background: var(--peacock-dark);
+  min-height: 100vh;
+  padding: 2rem 1.2rem;
+}
+.dy-sidebar .brand { font-family: var(--font-display); color: var(--sand); font-size: 1.3rem; margin-bottom: 2rem; display:block; }
+.dy-sidebar a {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(251,243,231,0.65);
+  padding: 0.7rem 0.8rem;
+  border-radius: var(--radius);
+  margin-bottom: 0.3rem;
+  text-decoration: none;
+}
+.dy-sidebar a:hover, .dy-sidebar a.active { background: rgba(251,243,231,0.1); color: #fff; }
+.stat-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.4rem;
+}
+.stat-card .num { font-family: var(--font-display); font-size: 2rem; color: var(--terracotta); }
+.stat-card .label { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; color: var(--ink-soft); letter-spacing: 0.05em; }
+
+table.dy-table th {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+  border-bottom: 2px solid var(--line);
+}
+table.dy-table td { vertical-align: middle; border-bottom: 1px solid var(--line); }
+.badge-status-confirmed { background: var(--peacock-tint); color: var(--peacock-dark); font-family: var(--font-mono); font-weight: 500; }
+.badge-status-pending { background: #FDF0DA; color: var(--marigold-dark); font-family: var(--font-mono); font-weight: 500; }
+
+@media (max-width: 767px) {
+  .dy-hero-collage { height: 300px; margin-top: 2rem; }
+  .dy-hero-stats { gap: 1.2rem; }
+}
