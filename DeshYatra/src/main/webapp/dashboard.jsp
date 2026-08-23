@@ -1,4 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="com.deshyatra.dao.BookingDAO" %>
+<%@ page import="com.deshyatra.dao.TourPackageDAO" %>
+<%@ page import="com.deshyatra.model.Booking" %>
+<%@ page import="com.deshyatra.model.TourPackage" %>
+<%@ page import="com.deshyatra.model.User" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.math.BigDecimal" %>
+<%@ page import="java.time.LocalDate" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +20,22 @@
 </head>
 <body>
 
+<%
+    User loggedInUser = (User) session.getAttribute("user");
+    if (loggedInUser == null) {
+        response.sendRedirect("login.jsp?error=loginRequired");
+        return;
+    }
+
+    BookingDAO bookingDAO = new BookingDAO();
+    TourPackageDAO packageDAO = new TourPackageDAO();
+    List<Booking> allBookings = bookingDAO.getByUser(loggedInUser.getUserId());
+
+    LocalDate today = LocalDate.now();
+    int upcomingCount = 0, pastCount = 0;
+    BigDecimal totalSpent = BigDecimal.ZERO;
+%>
+
 <jsp:include page="includes/navbar.jsp"><jsp:param name="activePage" value="dashboard"/></jsp:include>
 
 <header class="dy-hero" style="padding: 2.8rem 0;">
@@ -23,22 +47,35 @@
 </header>
 
 <section class="container py-5">
+
+<%
+    // First pass: compute stats
+    for (Booking b : allBookings) {
+        totalSpent = totalSpent.add(b.getAmount());
+        if (b.getTravelDate().toLocalDate().isBefore(today)) {
+            pastCount++;
+        } else {
+            upcomingCount++;
+        }
+    }
+%>
+
   <div class="row g-4 mb-4">
     <div class="col-md-4">
       <div class="stat-card">
-        <div class="num">2</div>
+        <div class="num"><%= upcomingCount %></div>
         <div class="label">Upcoming Trips</div>
       </div>
     </div>
     <div class="col-md-4">
       <div class="stat-card">
-        <div class="num">5</div>
+        <div class="num"><%= pastCount %></div>
         <div class="label">Trips Completed</div>
       </div>
     </div>
     <div class="col-md-4">
       <div class="stat-card">
-        <div class="num">&#8377;62,497</div>
+        <div class="num">&#8377;<%= totalSpent %></div>
         <div class="label">Total Spent</div>
       </div>
     </div>
@@ -48,25 +85,28 @@
   <div class="table-responsive mb-5">
     <table class="table dy-table">
       <thead>
-        <tr><th>Package</th><th>Travel Date</th><th>Travelers</th><th>Amount</th><th>Status</th><th></th></tr>
+        <tr><th>Package</th><th>Travel Date</th><th>Travelers</th><th>Amount</th><th>Status</th></tr>
       </thead>
       <tbody>
+        <%
+            boolean hasUpcoming = false;
+            for (Booking b : allBookings) {
+                if (!b.getTravelDate().toLocalDate().isBefore(today)) {
+                    hasUpcoming = true;
+                    TourPackage pkg = packageDAO.getById(b.getPackageId());
+                    String pkgName = (pkg != null) ? pkg.getName() : "Unknown Package";
+                    String badgeClass = "Confirmed".equals(b.getStatus()) ? "badge-status-confirmed" : "badge-status-pending";
+        %>
         <tr>
-          <td>Kerala Backwater Trail</td>
-          <td>12 Sep 2026</td>
-          <td>2</td>
-          <td>&#8377;42,998</td>
-          <td><span class="badge badge-status-confirmed px-2 py-1">Confirmed</span></td>
-          <td><a href="#" class="small">View</a></td>
+          <td><%= pkgName %></td>
+          <td><%= b.getTravelDate() %></td>
+          <td><%= b.getTravelers() %></td>
+          <td>&#8377;<%= b.getAmount() %></td>
+          <td><span class="badge <%= badgeClass %> px-2 py-1"><%= b.getStatus() %></span></td>
         </tr>
-        <tr>
-          <td>Ladakh High Passes</td>
-          <td>03 Oct 2026</td>
-          <td>1</td>
-          <td>&#8377;24,900</td>
-          <td><span class="badge badge-status-pending px-2 py-1">Pending</span></td>
-          <td><a href="#" class="small">View</a></td>
-        </tr>
+        <% } } if (!hasUpcoming) { %>
+        <tr><td colspan="5" class="text-muted text-center">No upcoming bookings yet.</td></tr>
+        <% } %>
       </tbody>
     </table>
   </div>
@@ -75,23 +115,26 @@
   <div class="table-responsive">
     <table class="table dy-table">
       <thead>
-        <tr><th>Package</th><th>Travel Date</th><th>Travelers</th><th>Amount</th><th></th></tr>
+        <tr><th>Package</th><th>Travel Date</th><th>Travelers</th><th>Amount</th></tr>
       </thead>
       <tbody>
+        <%
+            boolean hasPast = false;
+            for (Booking b : allBookings) {
+                if (b.getTravelDate().toLocalDate().isBefore(today)) {
+                    hasPast = true;
+                    TourPackage pkg = packageDAO.getById(b.getPackageId());
+                    String pkgName = (pkg != null) ? pkg.getName() : "Unknown Package";
+        %>
         <tr>
-          <td>Golden Triangle Express</td>
-          <td>18 Jan 2026</td>
-          <td>2</td>
-          <td>&#8377;33,998</td>
-          <td><a href="#" class="small">Leave a Review</a></td>
+          <td><%= pkgName %></td>
+          <td><%= b.getTravelDate() %></td>
+          <td><%= b.getTravelers() %></td>
+          <td>&#8377;<%= b.getAmount() %></td>
         </tr>
-        <tr>
-          <td>Goa Coastal Getaway</td>
-          <td>02 Nov 2025</td>
-          <td>1</td>
-          <td>&#8377;12,499</td>
-          <td><a href="#" class="small">Leave a Review</a></td>
-        </tr>
+        <% } } if (!hasPast) { %>
+        <tr><td colspan="4" class="text-muted text-center">No past trips yet.</td></tr>
+        <% } %>
       </tbody>
     </table>
   </div>

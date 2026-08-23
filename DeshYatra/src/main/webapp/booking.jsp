@@ -50,14 +50,13 @@
         <h3 class="h6 mb-3 mt-4">Trip Details</h3>
         <div class="mb-3">
           <label>Select Package</label>
-          <select name="package" class="form-control">
-            <option>Golden Triangle Express — &#8377;16,999</option>
-            <option>Kerala Backwater Trail — &#8377;21,499</option>
-            <option>Ladakh High Passes — &#8377;24,900</option>
-            <option>Goa Coastal Getaway — &#8377;12,499</option>
-            <option>Northeast Explorer — &#8377;27,999</option>
-            <option>Varanasi Spiritual Trail — &#8377;7,299</option>
-          </select>
+          <select name="packageId" class="form-control">
+			  <option value="1">Golden Triangle Express — &#8377;16,999</option>
+			  <option value="2">Kerala Backwater Trail — &#8377;21,499</option>
+			  <option value="3">Ladakh High Passes — &#8377;24,900</option>
+			  <option value="4">Goa Coastal Getaway — &#8377;12,499</option>
+			  <option value="5">Varanasi Spiritual Trail — &#8377;7,299</option>
+		  </select>
         </div>
         <div class="row">
           <div class="col-md-6 mb-3">
